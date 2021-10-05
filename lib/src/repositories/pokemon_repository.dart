@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:pokemon_of_the_day/src/config.dart';
@@ -28,12 +29,19 @@ class PokemonRepository {
 
     var pokemonData = (response.data as List).first;
 
+    final imageResponse = await _dio.get(
+      pokemonData["sprite"],
+      options: Options(
+        responseType: ResponseType.bytes,
+      ),
+    );
+
     return Pokemon(
       number: int.parse(pokemonData["number"]),
       name: pokemonData["name"],
       types: pokemonData["types"].cast<String>(),
       description: pokemonData["description"],
-      spriteUrl: pokemonData["sprite"],
+      spriteUint8List: Uint8List.fromList(imageResponse.data),
     );
   }
 }

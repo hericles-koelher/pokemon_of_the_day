@@ -38,7 +38,6 @@ dependencies:
   flutter_bloc: ^7.3.0
   hydrated_bloc: ^7.1.0
   dio: ^4.0.0
-  font_awesome: ^5.10.1
   json_serializable: ^5.0.2
   equatable: ^2.0.3
   json_annotation: ^4.1.0

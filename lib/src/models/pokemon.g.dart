@@ -11,7 +11,8 @@ Pokemon _$PokemonFromJson(Map<String, dynamic> json) => Pokemon(
       name: json['name'] as String,
       types: (json['types'] as List<dynamic>).map((e) => e as String).toList(),
       description: json['description'] as String,
-      spriteUrl: json['spriteUrl'] as String,
+      spriteUint8List: const Uint8ListConverter()
+          .fromJson(json['spriteUint8List'] as List<int>),
     );
 
 Map<String, dynamic> _$PokemonToJson(Pokemon instance) => <String, dynamic>{
@@ -19,5 +20,6 @@ Map<String, dynamic> _$PokemonToJson(Pokemon instance) => <String, dynamic>{
       'name': instance.name,
       'types': instance.types,
       'description': instance.description,
-      'spriteUrl': instance.spriteUrl,
+      'spriteUint8List':
+          const Uint8ListConverter().toJson(instance.spriteUint8List),
     };
