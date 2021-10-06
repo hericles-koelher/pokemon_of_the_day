@@ -142,19 +142,48 @@ class PokeScreen extends StatelessWidget {
         }
 
         if (state is PokemonLoadingError) {
-          // TODO: preparar uma exibição de erro
+          var textTheme = Theme.of(context).textTheme;
+
+          children.add(
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.error_outline,
+                        size: 75,
+                      ),
+                      Text(
+                        "An error occurred:",
+                        style: textTheme.headline5,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        state.message,
+                        style: textTheme.bodyText1,
+                        textAlign: TextAlign.justify,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
         }
 
         if (state is PokemonLoaded) {
           children.addAll(_widgetsFromLoadedState(context, state.pokemon));
         }
 
-        Color? backgroundColor = state is PokemonLoaded
-            ? mapColors[state.pokemon.types.first]
-            : null;
-
         return Scaffold(
-          backgroundColor: backgroundColor,
+          backgroundColor: state is PokemonLoaded
+              ? mapColors[state.pokemon.types.first]
+              : null,
           body: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
