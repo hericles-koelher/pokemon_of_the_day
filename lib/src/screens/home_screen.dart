@@ -38,7 +38,6 @@ class HomeScreen extends StatelessWidget {
                         ?.copyWith(color: Colors.white),
                     textAlign: TextAlign.center,
                   ),
-                  // TODO: devo usar uma hero animation aqui?
                   Image.asset(
                     "images/pikachu_silhouette.jpg",
                   ),

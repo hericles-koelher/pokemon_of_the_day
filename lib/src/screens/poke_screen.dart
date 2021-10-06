@@ -2,28 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_of_the_day/src/blocs/pokemon_cubit.dart';
 import 'package:pokemon_of_the_day/src/models/pokemon.dart';
+import 'package:pokemon_of_the_day/src/widgets/poke_tag.dart';
 
 class PokeScreen extends StatelessWidget {
-  // TODO: ajustar melhor essas cores.
   static final Map<String, Color> mapColors = {
-    "Fire": Colors.deepOrange,
-    "Fighting": Colors.red,
-    "Water": Colors.blue,
-    "Ghost": Colors.deepPurple,
-    "Poison": Colors.purple,
-    "Flying": Colors.deepPurpleAccent,
-    "Grass": Colors.green,
-    "Bug": Colors.lightGreen,
-    "Electric": Colors.yellow,
-    "Ground": Colors.amber,
-    "Normal": Colors.amberAccent,
-    "Rock": Colors.brown,
-    "Psychic": Colors.pink,
-    "Steel": Colors.grey,
-    "Ice": Colors.lightBlueAccent,
-    "Dragon": Colors.deepPurple,
-    "Dark": Colors.brown,
-    "Fairy": Colors.pinkAccent,
+    "Fire": const Color(0xFFEE8130),
+    "Fighting": const Color(0xFFC22E28),
+    "Water": const Color(0xFF6390F0),
+    "Ghost": const Color(0xFF735797),
+    "Poison": const Color(0xFFA33EA1),
+    "Flying": const Color(0xFFA98FF3),
+    "Grass": const Color(0xFF7AC74C),
+    "Bug": const Color(0xFFA6B91A),
+    "Electric": const Color(0xFFF7D02C),
+    "Ground": const Color(0xFFE2BF65),
+    "Normal": const Color(0xFFA8A77A),
+    "Rock": const Color(0xFFB6A136),
+    "Psychic": const Color(0xFFF95587),
+    "Steel": const Color(0xFFB7B7CE),
+    "Ice": const Color(0xFF96D9D6),
+    "Dragon": const Color(0xFF6F35FC),
+    "Dark": const Color(0xFF705746),
+    "Fairy": const Color(0xFFD685AD),
   };
 
   const PokeScreen({Key? key}) : super(key: key);
@@ -62,14 +62,20 @@ class PokeScreen extends StatelessWidget {
     ];
   }
 
-  // TODO: adicionar tags para tipos.
   Widget _buildPokemonData(BuildContext context, Pokemon pokemon) {
     final textTheme = Theme.of(context).textTheme;
+
+    List<PokeTag> types = pokemon.types.map((type) {
+      return PokeTag(
+        type: type,
+        color: mapColors[type]!,
+      );
+    }).toList();
 
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 25,
-        vertical: 10,
+        vertical: 20,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,14 +85,29 @@ class PokeScreen extends StatelessWidget {
             "#${pokemon.number}",
             style: textTheme.headline4,
           ),
-          Text(
-            pokemon.name,
-            style: textTheme.headline6,
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  pokemon.name,
+                  style: textTheme.headline5,
+                ),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: types,
+                  ),
+                ),
+              ],
+            ),
           ),
-          Text(
-            "Description: ${pokemon.description}",
-            style: textTheme.bodyText1,
-            textAlign: TextAlign.justify,
+          SingleChildScrollView(
+            child: Text(
+              pokemon.description,
+              style: textTheme.headline6,
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
       ),
@@ -100,9 +121,9 @@ class PokeScreen extends StatelessWidget {
       builder: (BuildContext context, state) {
         List<Widget> children = [
           IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_back,
-              color: Colors.white,
+              color: state is PokemonLoaded ? Colors.white : Colors.grey[900],
             ),
             onPressed: () {
               Navigator.pop(context);

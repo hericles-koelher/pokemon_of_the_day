@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'dart:math';
-
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +22,7 @@ class PokemonCubit extends HydratedCubit<PokemonState> {
 
         int totalPokemon = await repository.getNumberTotalPokemon();
 
-        var random = Random(currentDate.millisecond);
+        var random = Random();
 
         int pokemonNumber = random.nextInt(totalPokemon) + 1;
 
